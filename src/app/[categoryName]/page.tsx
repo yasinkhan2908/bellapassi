@@ -6,45 +6,7 @@ import { Metadata } from 'next'
 export const revalidate = 3600;
 
 // Build-time generation for static export
-export async function generateStaticParams() {
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/user/categories`, {
-      cache: "no-store",
-    });
 
-    const json = await res.json();
-
-    //console.log("API JSON:", json);
-
-    // ✅ Handle all possible structures
-    let categories: any[] = [];
-
-    if (Array.isArray(json)) {
-      // If API directly returns an array
-      categories = json;
-    } else if (Array.isArray(json.data)) {
-      // If API returns { data: [...] }
-      categories = json.data;
-    } else if (Array.isArray(json.data?.categories)) {
-      // If API returns { data: { categories: [...] } }
-      categories = json.data.categories;
-    } else {
-      console.warn("⚠️ No valid categories array found in API response.");
-    }
-
-    // ✅ Map only if array exists
-    const params = categories.map((c: any) => ({
-      categoryName: c.seo || c.slug || c.name || "unknown",
-    }));
-
-    console.log("Generated category params:", params);
-
-    return params;
-  } catch (err) {
-    console.error("❌ Error generating static params:", err);
-    return [];
-  }
-}
 
 // FIX: Await params in generateMetadata
 export async function generateMetadata({ params }: { params: Promise<{ categoryName: string }> }): Promise<Metadata> {
