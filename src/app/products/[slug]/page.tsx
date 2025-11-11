@@ -7,7 +7,7 @@ import { Metadata } from "next";
 export async function generateStaticParams() {
   // Fetch all product slugs from your API
   
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/products`, {
+  const res = await fetch(`${process.env.API_URL}/api/user/products`, {
     cache: 'no-store',
   });
 
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   
   // You can fetch product data here for metadata if needed
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/product-detail/${slug}`, {
+  const res = await fetch(`${process.env.API_URL}/api/user/product-detail/${slug}`, {
     cache: 'no-store',
   });
 
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; // 👈 Await the params
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/product-detail/${slug}`, {
+  const res = await fetch(`${process.env.API_URL}/api/user/product-detail/${slug}`, {
     cache: 'no-store',
   })
 

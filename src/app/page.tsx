@@ -24,7 +24,7 @@ export async function generateMetadata() {
 export default async function Home() {
   
   // 🟢 Fetch data from Laravel API (server-side)
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/home-data`, {
+  const res = await fetch(`${process.env.API_URL}/api/user/home-data`, {
     cache: 'no-store', // ensures fresh data each time
   });
 

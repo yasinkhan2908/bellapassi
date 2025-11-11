@@ -8,7 +8,7 @@ export const revalidate = 3600;
 // Build-time generation for static export
 export async function generateStaticParams() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/categories`, {
+    const res = await fetch(`${process.env.API_URL}/api/user/categories`, {
       cache: "no-store",
     });
 
