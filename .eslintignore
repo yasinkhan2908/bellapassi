@@ -1,0 +1,4 @@
+node_modules/
+.next/
+src/app/public/assets/js/
+src/app/public/assets/vendor/
