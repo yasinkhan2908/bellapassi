@@ -1,11 +1,26 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  //output: 'export', // tells Next to perform static export
   reactStrictMode: true,
-  experimental: {
-    appDir: true,
-  },
-  // If your app is in "src", tell Next.js explicitly
   distDir: '.next',
+  images: {
+    domains: ['bellapassi.engineers2.com', 'cdn.yoursite.com', 'bellapassi.vercel.app'],
+    unoptimized: true, // disables /_next/image optimization
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'bellapassi.admin.engineers2.com/',
+        port: '8000',
+        pathname: '/storage/**',
+      },
+    ],
+  },
+  trailingSlash: true, // improves static hosting compatibility
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
