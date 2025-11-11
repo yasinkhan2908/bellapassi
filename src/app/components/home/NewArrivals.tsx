@@ -96,7 +96,6 @@ export const NewArrivals = ({ products }: NewArrivalsProps) => {
 
                             // Pick a random color from the array
                             const randomColor = lightColors[Math.floor(Math.random() * lightColors.length)];
-                            const productImage = product.product_image.medium;
                             return (
                                 <div
                                 key={product.id}
@@ -111,7 +110,7 @@ export const NewArrivals = ({ products }: NewArrivalsProps) => {
                                         <Image
                                         width={282}
                                         height={400}
-                                        src={productImage}
+                                        src={product.product_image.medium}
                                         alt={product.product_name}
                                         loading="lazy"
                                         style={{

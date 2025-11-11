@@ -25,16 +25,26 @@ export interface LovingItem {
   image: string;
   url: string;
 }
+interface ProductImage {
+  id: number;
+  image: string;
+  larage: string; // typo from API, can fix later
+  medium: string;
+  small: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Product {
-  [x: string]: ReactNode;
   id: number;
   name: string;
   slug: string;
   image: string;
   product_name: string;
-  medium:string;
-  product_image?: string | null;
+  medium: string;
+  product_image: ProductImage;
   price: number;
+  mrp:number;
   discount_price: number;
   rating: number;
   description: string;

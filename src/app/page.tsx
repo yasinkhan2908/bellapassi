@@ -30,7 +30,7 @@ export default async function Home() {
 
   const responseData = await res.json();
   const data = responseData.data;
-  //console.log(data.new_arrival);
+  console.log(data.new_arrival);
 
   const upcomingProducts = [
     {
