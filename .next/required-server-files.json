@@ -52,7 +52,8 @@
       "loaderFile": "",
       "domains": [
         "bellapassi.engineers2.com",
-        "cdn.yoursite.com"
+        "cdn.yoursite.com",
+        "bellapassi.vercel.app"
       ],
       "disableStaticImages": false,
       "minimumCacheTTL": 60,
@@ -65,7 +66,7 @@
       "remotePatterns": [
         {
           "protocol": "http",
-          "hostname": "bellapassiadmin.engineers2.com/",
+          "hostname": "bellapassi.admin.engineers2.com/",
           "port": "8000",
           "pathname": "/storage/**"
         }
