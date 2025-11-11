@@ -11,7 +11,7 @@ const FilterSidebar = ({ show }: FilterSidebarProps) => {
   
   return (
     <div className="offcanvas offcanvas-start show leftsidebar" tabIndex={-1}>
-      {/* ... sidebar content ... */}
+      
     </div>
   );
 };

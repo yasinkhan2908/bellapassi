@@ -36,6 +36,7 @@ interface ProductImage {
 }
 
 export interface Product {
+  CateDatas:any;
   id: number;
   name: string;
   slug: string;

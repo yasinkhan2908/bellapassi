@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   distDir: '.next',
   images: {
-    domains: ['bellapassi.engineers2.com', 'cdn.yoursite.com', 'bellapassi.vercel.app'],
+    domains: ['bellapassi.engineers2.com', 'cdn.yoursite.com'],
     unoptimized: true, // disables /_next/image optimization
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'bellapassi.admin.engineers2.com/',
+        hostname: 'bellapassiadmin.engineers2.com/',
         port: '8000',
         pathname: '/storage/**',
       },

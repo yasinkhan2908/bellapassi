@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Key } from "react";
 import { Header, Footer } from "../components/common/";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,12 +9,14 @@ import ProductQuickView from "../components/products/ProductQuickView";
 export default function ClientCategory({
   categoryName,
   products,
+  CateDatas,
   initialPage,
   lastPage,
   bgColor,
 }: {
   categoryName: string;
   products: any[];
+  CateDatas: any[];
   bgColor: any[];
   initialPage: number;
   lastPage: number;
@@ -59,7 +61,7 @@ export default function ClientCategory({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [categoryName, page, hasMore, loading]);
-
+  console.log("page CateDatas",CateDatas);
   return (
     <div className="index-page">
       <Header />
@@ -94,6 +96,86 @@ export default function ClientCategory({
               <option value="price-low-high">Price, low to high</option>
               <option value="price-high-low">Price, high to low</option>
             </select>
+          </div>
+          <div className="offcanvas offcanvas-start leftsidebar filtersidebar" id="filtersidebar" aria-labelledby="sidebarLabel">
+            <div className="filtter-apply text-center">
+              <button className="">Apply</button>
+            </div>
+            <div className="filter-option p-2">
+              <div className="accordion" id="accordionExample">
+                {CateDatas.map((cat) => (
+                  <div className="accordion-item" key={cat.id}>
+                    <h2 className="accordion-header bg-gray-100" id={`heading${cat.id}`}>
+                      <span
+                        className="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#collapse${cat.id}`}
+                        aria-controls={`collapse${cat.id}`}
+                      >
+                        {cat.single_data.name}
+                      </span>
+                    </h2>
+                    <div
+                      id={`collapse${cat.id}`}
+                      className="accordion-collapse collapse"
+                      aria-labelledby={`heading${cat.id}`}
+                      data-bs-parent="#accordionExample"
+                    >
+                      <div className="accordion-body">
+                        <div className="filter-body">
+                          <ul>
+                            {cat.single_data.field_option.map((options: { id: Key | null | undefined; }) => (
+                              <li key={options.id}>{options.id}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+
+                <div className="accordion-item">
+                    <h2 className="accordion-header bg-gray-100" id="headingSideTwo">
+                        <span className="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-controls="collapseTwo">
+                            Color
+                        </span>
+                    </h2>
+                    <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingSideTwo" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            <div className="filter-body">
+                              <ul>
+                                <li>White</li>
+                                <li>Black</li>
+                                <li>Blue</li>
+                                <li>Red</li>
+                                <li>Yellow</li>
+                                <li>Green</li>
+                              </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="accordion-item">
+                    <h2 className="accordion-header bg-gray-100" id="headingSideThree">
+                        <span className="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-controls="collapseThree">
+                            Toe Shape
+                        </span>
+                    </h2>
+                    <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingSideThree" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            <div className="filter-body">
+                              <ul>
+                                <li>Rounde Toe</li>
+                                <li>Narrow square</li>
+                              </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Product Grid */}

@@ -72,21 +72,31 @@ export async function generateMetadata({ params }: { params: Promise<{ categoryN
 // FIX: Await params in the page component
 export default async function CategoryPage({ params }: { params: Promise<{ categoryName: string }> }) {
   const { categoryName } = await params; // 👈 Await the params
-  //console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/user/category-products/${categoryName}`);
+  //get category all attributes
+  
+  console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/user/category-detail/${categoryName}`);
+  const catDetail = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/category-detail/${categoryName}`, {
+    cache: 'no-store',
+  })
+  const catDetailJson = await catDetail.json()
+  console.log("category fields",catDetailJson);
+  const CateData = Array.isArray(catDetailJson) ? catDetailJson : catDetailJson.data.category_field;
+  // since you already extracted the data in the line above
+  const CateDatas = CateData.data || CateData;
+  //console.log("category products bg_color",json.data.bg_color);
+  //
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/category-products/${categoryName}`, {
     cache: 'no-store',
   })
   const json = await res.json()
   const product = Array.isArray(json) ? json : json.data.products;
-  
-  // Also fix the products prop - use product instead of product.data
   // since you already extracted the data in the line above
   const products = product.data || product;
   //console.log("category products bg_color",json.data.bg_color);
   return (
     <>
       <ClientBootstrap />
-      <ClientCategory categoryName={categoryName} products={products} initialPage={product.current_page}
+      <ClientCategory CateDatas={CateDatas} categoryName={categoryName} products={products} initialPage={product.current_page}
       lastPage={product.last_page} bgColor={json.data.bg_color} />
     </>
   );

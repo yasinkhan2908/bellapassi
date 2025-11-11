@@ -25,7 +25,7 @@ interface ProductCardProps {
 
 export default function ProductQuickView({ product }: ProductCardProps) {
     const [show, setShow] = useState(false);
-    console.log("quick view products",product.attributes);
+    //console.log("quick view products",product.attributes);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 

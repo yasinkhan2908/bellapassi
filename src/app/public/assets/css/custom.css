@@ -1450,8 +1450,52 @@ ease;
     padding: 0;
     color: red;
 }
+.filtersidebar{
+    max-width: 382px !important;
+}
+.filtter-apply button{
+    margin: 1rem;
+    padding: 1rem 9rem;
+    background-color: #fff !important;
+    border-color: #000 !important;
+    color: #000 !important;
+    border: 1px solid !important;
+    text-transform: uppercase;
+}
+.filter-option .accordion-header{
+    padding: 0.7rem !important;
+    border-radius: 0 !important;
+}
+.filter-option .accordion-item{
+    margin-bottom: 10px !important;
+    border-radius: 0 !important;
+}
+.filter-body ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    height: 100%;
+    overflow: hidden;
+}
+.filter-body ul li{
+     float: left;
+    margin-right: 10px;
+    border: 1px solid #444;
+    padding: 7px 10px;
+    margin-bottom: 10px;
+}
 /* Medium devices (≥768px) */
 @media (max-width: 768px) {
+    
+    .filtter-apply button{
+        margin: 1rem;
+        padding: 1rem 6rem;
+        background-color: #fff !important;
+        border-color: #000 !important;
+        color: #000 !important;
+        border: 1px solid !important;
+        text-transform: uppercase;
+    }
     .category-section h3{
         font-size: 21px;
         margin: 0;
