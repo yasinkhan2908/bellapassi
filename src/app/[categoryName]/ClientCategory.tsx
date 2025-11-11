@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, Key } from "react";
+import { useState, useEffect, Key, ReactNode } from "react";
 import { Header, Footer } from "../components/common/";
 import Link from "next/link";
 import Image from "next/image";
@@ -124,8 +124,9 @@ export default function ClientCategory({
                       <div className="accordion-body">
                         <div className="filter-body">
                           <ul>
-                            {cat.single_data.field_option.map((options: { id: Key | null | undefined; }) => (
-                              <li key={options.id}>{options.id}</li>
+                            {cat.single_data.field_option.map((options: {
+                              [x: string]: ReactNode; id: Key | null | undefined; }) => (
+                              <li key={options.id}>{options.value}</li>
                             ))}
                           </ul>
                         </div>
