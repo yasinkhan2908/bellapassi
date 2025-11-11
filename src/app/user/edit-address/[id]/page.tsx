@@ -7,7 +7,7 @@ interface EditAddressPageProps {
 
 export async function generateStaticParams() {
   // Fetch all product slugs from your API
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/allAddress`, {
+  const res = await fetch(`${process.env.API_URL}/api/user/allAddress`, {
     cache: 'no-store',
   });
 

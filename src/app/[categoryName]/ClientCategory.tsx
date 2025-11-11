@@ -41,7 +41,7 @@ export default function ClientCategory({
         const nextPage = page + 1;
         try {
           //console.log("nextPage",nextPage);
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/category-products/${categoryName}?page=${nextPage}`, {
+          const res = await fetch(`${process.env.API_URL}/api/user/category-products/${categoryName}?page=${nextPage}`, {
             cache: 'no-store',
           });
           const json = await res.json()

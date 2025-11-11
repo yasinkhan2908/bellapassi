@@ -3,7 +3,7 @@ import Addresses from '../../components/dashboard/Addresses';
 
 export default async function AddressesPage() {
   // Optional: Fetch user addresses server-side
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/addresses`, {
+  // const res = await fetch(`${process.env.API_URL}/api/user/addresses`, {
   //   cache: 'no-store', // or 'force-cache' if you want caching
   // });
   // const addresses = await res.json();
