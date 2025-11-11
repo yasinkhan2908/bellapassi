@@ -4,24 +4,6 @@ import { Metadata } from "next";
 
 
 
-export async function generateStaticParams() {
-  // Fetch all product slugs from your API
-  
-  const res = await fetch(`${process.env.API_URL}/api/user/products`, {
-    cache: 'no-store',
-  });
-
-  if (!res.ok) return [];
-
-  const products = await res.json();
-
-  // Adjust based on your API response structure
-  const productList = products.data.products || products;
-
-  return productList.map((product: any) => ({
-    slug: product.slug,
-  }));
-}
 // If you need generateMetadata, add it like this:
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
