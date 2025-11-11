@@ -1,0 +1,19 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/add-address/page": "/add-address",
+  "/checkout/page": "/checkout",
+  "/address/page": "/address",
+  "/cart/page": "/cart",
+  "/login/page": "/login",
+  "/change-address/page": "/change-address",
+  "/page": "/",
+  "/otp/page": "/otp",
+  "/user/account-setting/page": "/user/account-setting",
+  "/user/add-address/page": "/user/add-address",
+  "/user/dashboard/page": "/user/dashboard",
+  "/user/my-address/page": "/user/my-address",
+  "/[categoryName]/page": "/[categoryName]",
+  "/products/[slug]/page": "/products/[slug]",
+  "/user/edit-address/[id]/page": "/user/edit-address/[id]"
+}
