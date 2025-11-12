@@ -18,12 +18,12 @@ export async function loginUser(prevState: { error: string | null }, formData: F
   
   // try {
     // 1️⃣ Get CSRF cookie first
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`, {
+    await fetch(`${process.env.API_URL}/sanctum/csrf-cookie`, {
       cache: 'no-store', // ensures fresh data each time
     });
     
     // 2️⃣ Then login
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/user-register`, {
+    const response = await fetch(`${process.env.API_URL}/api/user/user-register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ export async function verifyOtp(formData: FormData) {
 
 async function verifyOtpOnServer(mobile: string, otp: string) {
   // Your API call to verify OTP
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/otp-verification`, {
+  const response = await fetch(`${process.env.API_URL}/api/user/otp-verification`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export async function resendOtp() {
   
   try {
     // Your resend OTP logic here
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/resend-otp`, {
+    const response = await fetch(`${process.env.API_URL}/api/user/resend-otp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
