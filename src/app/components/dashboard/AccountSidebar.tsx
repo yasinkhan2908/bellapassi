@@ -10,7 +10,8 @@ export const AccountSidebar = ({}: AccountSidebarProps) => {
         { name: "My Address", path: "/user/my-address", icon: "bi bi-geo-alt" },
         { name: "Account Settings", path: "/user/account-setting", icon: "bi bi-gear" },
     ];
-
+    const FirstName = localStorage.getItem("user_first_name");
+    const LastName = localStorage.getItem("user_last_name");
     return (
         <div className="profile-menu collapse d-lg-block" id="profileMenu">
             <div className="user-info aos-init aos-animate" data-aos="fade-right">
@@ -23,7 +24,7 @@ export const AccountSidebar = ({}: AccountSidebarProps) => {
                         loading="lazy"
                     />
                 </div>
-                <h4>yasin pathan</h4>    
+                <h4>{FirstName} {LastName}</h4>    
             </div>
 
             <nav className="menu-nav">

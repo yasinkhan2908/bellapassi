@@ -1498,7 +1498,9 @@ ease;
 }
 /* Medium devices (≥768px) */
 @media (max-width: 768px) {
-    
+    .account .profile-menu{
+        display: block !important;
+    }
     .opt-verify{
         width: 100% !important;
     }   

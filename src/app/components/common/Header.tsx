@@ -392,7 +392,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                             <div className="h-6 bg-gray-100 leftside-sigh">
                                 <div className="d-flex justify-around text-sss-primary-500">
                                     <div className="underline-offset-4">
-                                        <Link href="/user/dashboard" className=""> My Account</Link>
+                                        <Link href="/user/account-setting" className=""> My Account</Link>
                                     </div>
                                 </div>
                             </div> 

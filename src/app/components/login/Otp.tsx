@@ -129,12 +129,14 @@ export default function OtpClient() {
 
             // Store authentication data
             if (result.data?.token) {
+                console.log(123);
                 localStorage.setItem("token", result.data.token);
+                localStorage.setItem("userData", result.data);
             }
 
             // Redirect to dashboard
             setTimeout(() => {
-                router.push('/user/dashboard');
+                //router.push('/user/dashboard');
             }, 500);
             
         } catch (error) {
@@ -189,7 +191,7 @@ export default function OtpClient() {
                                                 type="text"
                                                 inputMode="numeric"
                                                 maxLength={1}
-                                                value={digit}
+                                                value=""
                                                 onChange={(e) => handleChange(e, i)}
                                                 onKeyDown={(e) => handleKeyDown(e, i)}
                                                 onPaste={handlePaste}

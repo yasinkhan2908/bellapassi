@@ -129,7 +129,11 @@ export default function OtpClient() {
 
             // Store authentication data
             if (result.data?.token) {
-                localStorage.setItem("token", result.data.token);
+                //console.log("result",result.data.user);
+                localStorage.setItem("token", result.data.token);                
+                localStorage.setItem("user_first_name", result.data.user.first_name);   
+                localStorage.setItem("user_last_name", result.data.user.last_name);  
+                localStorage.setItem("user_mobile", result.data.user.phone);
             }
 
             // Redirect to dashboard
@@ -169,10 +173,11 @@ export default function OtpClient() {
             toast.dismiss();
             
             if (result.success) {
-                toast.success('OTP resent successfully!');
+                toast.success('OTP send successfully!');
                 if (result.data?.otp) {
                     setOtp(result.data.otp);
-                    localStorage.setItem('otp', result.data.otp);
+                    localStorage.setItem('otp', result.data.otp);                    
+                    localStorage.setItem("userData", result.data);
                 }
                 setOtps(new Array(length).fill("")); // Clear OTP inputs
                 setErrors({});

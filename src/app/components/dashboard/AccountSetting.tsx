@@ -10,6 +10,20 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { AccountSidebar } from './AccountSidebar';
 //
+import Swal from 'sweetalert2';
+
+interface FormData {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+interface FormErrors {
+    [x: string]: string | undefined;
+    first_name?: string;
+    last_name?: string;
+}
+
 export default function AccountSetting() {
     const router = useRouter(); // ✅ initialize router
     //toast.loading('Logging in...');
@@ -18,6 +32,33 @@ export default function AccountSetting() {
     const [email, setEmail] = useState('');
     const [mobile_number, setMobileNumber] = useState('');
     const [result, setResult] = useState<{ error?: string; data?: any } | null>(null);
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState<FormErrors>({});
+    
+    const [formData, setFormData] = useState<FormData>({
+        first_name: '',
+        last_name: '',
+        email: ''
+    });
+
+    const MobileNumber = localStorage.getItem("user_mobile");
+
+    // Custom validation function to replace Parsley.js
+    const validateForm = (): boolean => {
+        const newErrors: FormErrors = {};
+
+        if (!formData.first_name.trim()) {
+            newErrors.first_name = 'First name is required';
+        }
+        if (!formData.last_name.trim()) {
+            newErrors.last_name = 'Last name is required';
+        }
+
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const [user, setUser] = useState({
                                 first_name: '',
@@ -31,11 +72,14 @@ export default function AccountSetting() {
         //console.log("local token",localStorage.getItem('token'))
         const fetchProfile = async () => {
         try {
-            const { data } = await api.get('/api/user/profile', {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            });
-            //console.log('data', data.data);
-            setUser(data.data);
+            const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/profile`, {
+                            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                            cache: 'no-store', // ensures fresh data each time
+                        });
+            const responseData = await data.json();
+            console.log('data', responseData.data);
+            setUser(responseData.data);
+            setFormData(responseData.data);
         } catch (err) {
             console.error('Error fetching profile:', err);
         }
@@ -47,47 +91,68 @@ export default function AccountSetting() {
     const handleChange = (e:any) => {
         const { name, value } = e.target;
         setUser((prev) => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        try {
-            toast.loading('Logging in...');
-            // 1️⃣ Get CSRF cookie first
-            await api.get('/sanctum/csrf-cookie');
-            // 2️⃣ Then login
-            const token = localStorage.getItem("token");
-            //console.log("user" , user);
-            const firstname    = user.first_name;
-            const lastname     = user.last_name;
-            const email        = user.email;
-            const mobilenumber = user.email;
-            //
-            const response = await api.post(
-                '/api/user/update-profile',
-                { first_name : user.first_name, last_name : user.last_name, email : user.email },
-                {
-                    headers: {
-                    Authorization: `Bearer ${token}`, // include login token
-                    },
-                }
-            );
-            //console.log('Login success:', response);
-            if (response.data.success === false) {
-                toast.dismiss();
-                toast.error(response.data.message || 'Something went wrong!');
-                return;
-            }
-            toast.dismiss();
-            toast.success(response.data.message || 'Account successfully updated!');
-            
-        } catch (error) {
-            //console.log(error);
-            toast.dismiss();
-            toast.error('Login failed. Please try again.');
+        if (!validateForm()) {
+            // Swal.fire({
+            //   title: 'Validation Error',
+            //   text: 'Please fill in all required fields correctly',
+            //   icon: 'error',
+            //   confirmButtonText: 'OK'
+            // });
+            return;
         }
+
+        setIsSubmitting(true);
+       
+        // 1️⃣ Get CSRF cookie first
+        // 2️⃣ Then login
+        const token = localStorage.getItem("token");
+        //console.log("user" , user);
+        //
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/update-profile`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    Authorization: `Bearer ${token}`, // include login token
+                                },
+                                body: JSON.stringify(formData),
+                            });
+        const result = await response.json();   
+        //console.log('Login success:', response);
+        if (!result.success) {
+            throw new Error(result.message || 'Something went wrong!');
+        }
+        
+            
+        Swal.fire({
+            title: 'Success',
+            text: result.message || 'Account successfully updated!',
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#2ee44cff',
+            cancelButtonColor: 'rgba(222, 41, 50, 1)',
+            confirmButtonText: 'Ok'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                // Redirect to dashboard
+                localStorage.setItem("user_first_name",formData.first_name);
+                localStorage.setItem("user_last_name",formData.last_name);
+                
+                // Reset form
+                setFormData({
+                    first_name: '',
+                    last_name: '',
+                    email: ''
+                });
+                router.push('/user/dashboard');
+            
+            }
+        });
   };
 
   return (
@@ -115,24 +180,32 @@ export default function AccountSetting() {
                                                     <div className="row g-3">
                                                         <div className="col-md-6">
                                                             <label className="form-label">First Name</label>
-                                                            <input type="text" className="form-control" id="first_name" name="first_name" placeholder='Enter first name' value={user.first_name} onChange={handleChange}/>
+                                                            <input type="text" className={`form-control ${errors.first_name ? 'is-invalid' : ''}`} id="first_name" name="first_name" placeholder='Enter first name' value={formData.first_name} onChange={handleChange}/>
+                                                            {errors.first_name && <div className="invalid-feedback d-block">{errors.first_name}</div>}
                                                         </div>
                                                         <div className="col-md-6">
                                                             <label className="form-label">Last Name</label>
-                                                            <input type="text" className="form-control" id="last_name" name="last_name" placeholder='Enter Last name' value={user.last_name} onChange={handleChange}/>
+                                                            <input type="text" className={`form-control ${errors.last_name ? 'is-invalid' : ''}`} id="last_name" name="last_name" placeholder='Enter Last name' value={formData.last_name} onChange={handleChange}/>
+                                                            {errors.last_name && <div className="invalid-feedback d-block">{errors.last_name}</div>}
                                                         </div>
                                                         <div className="col-md-6">
                                                             <label className="form-label">Email</label>
-                                                            <input type="email" className="form-control" id="email" name="email"  placeholder='Enter email' value={user.email} onChange={handleChange}/>
+                                                            <input type="email" className="form-control" id="email" name="email"  placeholder='Enter email' value={formData.email} onChange={handleChange}/>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <label className="form-label">Phone</label>
-                                                            <input type="tel" className="form-control" id="phone_number" name="phone_number"  maxLength={10}  placeholder='Enter phone number'  value={user.phone} onChange={handleChange} />
+                                                            <input type="tel" className={`form-control }`} id="mobile" name="mobile"  maxLength={10}  placeholder='Enter phone number'  value={MobileNumber} readOnly />
                                                         </div>
                                                     </div>
 
                                                     <div className="form-buttons">
-                                                        <button type="submit" className="btn btn-primary" >Save Changes</button>
+                                                        <button 
+                                                        type="submit" 
+                                                        className="btn btn-primary mt-3"
+                                                        disabled={isSubmitting}
+                                                        >
+                                                        {isSubmitting ? 'Update...' : 'Update Account'}
+                                                        </button>
                                                     </div>
                                                 </form>
                                             </div>
