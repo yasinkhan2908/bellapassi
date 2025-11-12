@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useEffect, useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from "next/link";
-
+import { Header, Footer } from '../components/common';
 export default function OtpClient() {
     const [mobile, setMobile] = useState('');
     const [otp, setOtp] = useState('');
@@ -186,107 +186,113 @@ export default function OtpClient() {
     };
 
     return (
-        <div className="d-flex h-screen mt-20 justify-center">
-            <div>
-                <div className="z-10">
-                    <div className="p-4 bg-white mx-auto rounded-2xl w-100">
-                        <div className="mb-4">
-                            <div className="d-flex justify-center">
-                                <Image 
-                                    src="/img/sms_icon.png"  
-                                    width={40} 
-                                    height={40}   
-                                    alt="SMS icon" 
-                                    className="w-40" 
-                                    loading="lazy"
-                                />
-                            </div>
-                            <div className="d-flex flex-col mt-4 text-blue text-center">
-                                <span>
-                                    OTP has been sent via SMS to {mobile} 
-                                    {otp && <strong> Otp - ({otp})</strong>}
-                                </span>
-                            </div>
-                            
-                            {errors.general && (
-                                <div className="text-red-500 text-center mt-2">
-                                    {errors.general}
-                                </div>
-                            )}
-
-                            <form onSubmit={handleSubmit} className="p-4 space-y-2">
-                                <div className="my-4 relative flex w-full flex-wrap items-stretch">
-                                    <div className="d-flex gap-2 justify-center mt-6">
-                                        {otps.map((digit, i) => (
-                                            <input
-                                                key={i}
-                                                ref={(el) => {
-                                                    inputsRef.current[i] = el;
-                                                }}
-                                                type="text"
-                                                inputMode="numeric"
-                                                maxLength={1}
-                                                value={digit}
-                                                onChange={(e) => handleChange(e, i)}
-                                                onKeyDown={(e) => handleKeyDown(e, i)}
-                                                onPaste={handlePaste}
-                                                className={`m-2 border h-10 w-12 text-center form-control rounded focus:border-gray-600 bg-red-50 ${
-                                                    errors.otp ? 'border-red-500' : ''
-                                                }`}
-                                                disabled={isSubmitting}
-                                            />
-                                        ))}
+        <div className="index-page">
+            <Header />
+            <main className="main">
+                <div className="d-flex h-screen mt-20 justify-center opt-verify mx-auto">
+                    <div>
+                        <div className="z-10">
+                            <div className="p-4 bg-white mx-auto rounded-2xl w-100">
+                                <div className="mb-4">
+                                    <div className="d-flex justify-center">
+                                        <Image 
+                                            src="/img/sms_icon.png"  
+                                            width={40} 
+                                            height={40}   
+                                            alt="SMS icon" 
+                                            className="w-40" 
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div className="d-flex flex-col mt-4 text-blue text-center">
+                                        <span>
+                                            OTP has been sent via SMS to {mobile} 
+                                            {otp && <strong> Otp - ({otp})</strong>}
+                                        </span>
                                     </div>
                                     
-                                    {errors.otp && (
-                                        <div className="text-red-500 text-center mt-2 text-sm">
-                                            {errors.otp}
+                                    {errors.general && (
+                                        <div className="text-red-500 text-center mt-2">
+                                            {errors.general}
                                         </div>
                                     )}
 
-                                    <div className="mt-5">
-                                        <div className="rounded-md bg-sss-primary-500 mx-8">
-                                            <button 
-                                                type="submit"
-                                                disabled={isSubmitting}
-                                                className={`transition duration-500 ease-in-out bg-sss-primary-500 text-white font-bold py-2 px-4 rounded w-full inline-flex justify-center verify-btn ${
-                                                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                                                }`}
-                                            >
-                                                <i className="bi bi-bucket"></i>
-                                                <span className="mt-0.5 ml-1 text-white verify">
-                                                    {isSubmitting ? 'Verifying...' : 'Verify OTP'}
-                                                </span>
-                                            </button>
+                                    <form onSubmit={handleSubmit} className="p-4 space-y-2">
+                                        <div className="my-4 relative flex w-full flex-wrap items-stretch">
+                                            <div className="d-flex gap-2 justify-center mt-6">
+                                                {otps.map((digit, i) => (
+                                                    <input
+                                                        key={i}
+                                                        ref={(el) => {
+                                                            inputsRef.current[i] = el;
+                                                        }}
+                                                        type="text"
+                                                        inputMode="numeric"
+                                                        maxLength={1}
+                                                        value={digit}
+                                                        onChange={(e) => handleChange(e, i)}
+                                                        onKeyDown={(e) => handleKeyDown(e, i)}
+                                                        onPaste={handlePaste}
+                                                        className={`m-2 border h-10 w-12 text-center form-control rounded focus:border-gray-600 bg-red-50 ${
+                                                            errors.otp ? 'border-red-500' : ''
+                                                        }`}
+                                                        disabled={isSubmitting}
+                                                    />
+                                                ))}
+                                            </div>
+                                            
+                                            {errors.otp && (
+                                                <div className="text-red-500 text-center mt-2 text-sm">
+                                                    {errors.otp}
+                                                </div>
+                                            )}
+
+                                            <div className="mt-5">
+                                                <div className="rounded-md bg-sss-primary-500 mx-8">
+                                                    <button 
+                                                        type="submit"
+                                                        disabled={isSubmitting}
+                                                        className={`w-100 transition duration-500 ease-in-out bg-sss-primary-500 text-white font-bold py-2 px-4 rounded w-full inline-flex justify-center verify-btn ${
+                                                            isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                                                        }`}
+                                                    >
+                                                        <i className="bi bi-bucket"></i>
+                                                        <span className="mt-0.5 ml-1 text-white verify">
+                                                            {isSubmitting ? 'Verifying...' : 'Verify OTP'}
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="d-flex justify-center text-center mt-5">
+                                                <div className="d-flex flex-col items-center space-y-2 text-center">
+                                                    <button
+                                                        type="button"
+                                                        className="cursor-pointer inline-flex items-center gap-2 text-green-700 hover:underline font-bold text-xl text-green bg-transparent border-none"
+                                                    >
+                                                        <i className="bi bi-whatsapp"></i>
+                                                        <span className="text-green">Get OTP on WhatsApp</span>
+                                                    </button>
+                                                    <div className="text-gray-500">OR</div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleResendOtp}
+                                                        disabled={isSubmitting}
+                                                        className="font-bold cursor-pointer text-xl text-blue bg-transparent border-none hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    >
+                                                        Resend OTP via SMS
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                    <div className="d-flex justify-center text-center mt-5">
-                                        <div className="d-flex flex-col items-center space-y-2 text-center">
-                                            <button
-                                                type="button"
-                                                className="cursor-pointer inline-flex items-center gap-2 text-green-700 hover:underline font-bold text-xl text-green bg-transparent border-none"
-                                            >
-                                                <i className="bi bi-whatsapp"></i>
-                                                <span className="text-green">Get OTP on WhatsApp</span>
-                                            </button>
-                                            <div className="text-gray-500">OR</div>
-                                            <button
-                                                type="button"
-                                                onClick={handleResendOtp}
-                                                disabled={isSubmitting}
-                                                className="font-bold cursor-pointer text-xl text-blue bg-transparent border-none hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
-                                            >
-                                                Resend OTP via SMS
-                                            </button>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </main>
+            <Footer />
+        </div>    
     );
 }

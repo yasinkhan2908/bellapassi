@@ -1487,9 +1487,15 @@ ease;
 .text-red-500{
     color: red !important;
 }
+.opt-verify{
+    width: 30% !important;
+}
 /* Medium devices (≥768px) */
 @media (max-width: 768px) {
     
+    .opt-verify{
+        width: 100% !important;
+    }   
     .filtter-apply button{
         margin: 1rem;
         padding: 1rem 6rem;
