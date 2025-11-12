@@ -113,7 +113,7 @@ export default function Addresses() {
                 //
                 setAddresses(data.data);
                 // Refresh list below (without page reload)
-                router.refresh();
+                //router.refresh();
             }
         });
     };
