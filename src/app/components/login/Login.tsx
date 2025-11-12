@@ -57,7 +57,7 @@ export function LoginForm() {
 
     setIsLoading(true);
 
-    try {
+    // try {
       // 1️⃣ Get CSRF cookie first
       await fetch(`${process.env.API_URL}/sanctum/csrf-cookie`, {
         cache: 'no-store', // ensures fresh data each time
@@ -87,11 +87,11 @@ export function LoginForm() {
 
       // Redirect
       router.push('/otp');
-    } catch (err) {
-      setError('Login failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    // } catch (err) {
+    //   setError('Login failed. Please try again.');
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   // Real-time validation on input change
