@@ -8,12 +8,16 @@ import { Header, Footer } from '../components/common';
 
 export default function OtpClient() {
     const [mobile, setMobile] = useState('');
-    const [otp, setOtp] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState<{ otp?: string; general?: string }>({});
-    
+    const [otp, setOtp] = useState('');
     const router = useRouter();
     const searchParams = useSearchParams();
+
+    // OTP input management
+    const length = 4;
+    const [otps, setOtps] = useState<string[]>(new Array(length).fill(""));
+    const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
     // Get mobile from URL params or session storage
     useEffect(() => {
@@ -27,19 +31,29 @@ export default function OtpClient() {
             setMobile(storedMobile);
         }
     }, [searchParams]);
-
-    // Get stored OTP
     useEffect(() => {
         const storedOtp = localStorage.getItem('otp');
+        console.log(storedOtp);
         if (storedOtp) {
             setOtp(storedOtp);
         }
     }, []);
 
-    // OTP input management
-    const length = 4;
-    const [otps, setOtps] = useState<string[]>(new Array(length).fill(""));
-    const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+    // Reset OTP when component mounts
+    useEffect(() => {
+        clearOtp();
+    }, []);
+
+    // Clear OTP function
+    const clearOtp = () => {
+        setOtps(new Array(length).fill(""));
+        // Clear any stored OTP
+        //localStorage.removeItem('otp');
+        // Focus first input
+        setTimeout(() => {
+            inputsRef.current[0]?.focus();
+        }, 0);
+    };
 
     // Client-side validation
     const validateForm = (): boolean => {
@@ -73,8 +87,19 @@ export default function OtpClient() {
     };
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
-        if (e.key === "Backspace" && !otps[index] && index > 0) {
-            inputsRef.current[index - 1]?.focus();
+        if (e.key === "Backspace") {
+            const newOtp = [...otps];
+            
+            if (!otps[index] && index > 0) {
+                // If current is empty, move to previous and clear it
+                newOtp[index - 1] = "";
+                setOtps(newOtp);
+                inputsRef.current[index - 1]?.focus();
+            } else {
+                // Clear current input
+                newOtp[index] = "";
+                setOtps(newOtp);
+            }
         }
     };
 
@@ -96,14 +121,15 @@ export default function OtpClient() {
 
         setIsSubmitting(true);
         
-        try {
+        // try {
             toast.loading('Verifying OTP...');
 
             // Get CSRF cookie first
             await fetch(`${process.env.API_URL}/sanctum/csrf-cookie`, {
                 cache: 'no-store', // ensures fresh data each time
             });
-
+            console.log("otps",otps.join(""));
+            console.log("mobile",mobile);
             // OTP verification
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/otp-verification`, {
                 method: 'POST',
@@ -112,46 +138,53 @@ export default function OtpClient() {
                 },
                 body: JSON.stringify({ 
                     mobile: mobile, 
-                    otps: otps
+                    otp: otps.join("") // Send as string instead of array
                 }),
             });
 
             const result = await response.json();
 
             if (!result.success) {
+                setIsSubmitting(false);
                 toast.dismiss();
                 toast.error(result.message || 'OTP verification failed!');
                 setErrors({ general: result.message || 'OTP verification failed' });
+                
+                // Clear OTP on failure
+                clearOtp();
                 return;
             }
-
+            setIsSubmitting(false);
             toast.dismiss();
             toast.success(result.message || 'OTP successfully verified!');
 
             // Store authentication data
             if (result.data?.token) {
-                //console.log("result",result.data.user);
                 localStorage.setItem("token", result.data.token);                
                 localStorage.setItem("user_first_name", result.data.user.first_name);   
                 localStorage.setItem("user_last_name", result.data.user.last_name);  
                 localStorage.setItem("user_mobile", result.data.user.phone);
-
-                //
             }
+
+            // Clear OTP on success
+            clearOtp();
 
             // Redirect to dashboard
             setTimeout(() => {
                 router.push('/user/dashboard');
             }, 500);
-            
-        } catch (error) {
-            console.error('OTP verification error:', error);
-            toast.dismiss();
-            toast.error('Verification failed. Please try again.');
-            setErrors({ general: 'Verification failed. Please try again.' });
-        } finally {
             setIsSubmitting(false);
-        }
+        // } catch (error) {
+        //     console.error('OTP verification error:', error);
+        //     toast.dismiss();
+        //     toast.error('Verification failed. Please try again.');
+        //     setErrors({ general: 'Verification failed. Please try again.' });
+            
+        //     // Clear OTP on error
+        //     clearOtp();
+        // } finally {
+        //     setIsSubmitting(false);
+        // }
     };
 
     const handleResendOtp = async () => {
@@ -176,13 +209,9 @@ export default function OtpClient() {
             toast.dismiss();
             
             if (result.success) {
-                toast.success('OTP send successfully!');
-                if (result.data?.otp) {
-                    setOtp(result.data.otp);
-                    localStorage.setItem('otp', result.data.otp);                    
-                    localStorage.setItem("userData", result.data);
-                }
-                setOtps(new Array(length).fill("")); // Clear OTP inputs
+                toast.success('OTP sent successfully!');
+                // Clear previous OTP inputs
+                clearOtp();
                 setErrors({});
             } else {
                 toast.error(result.message || 'Failed to resend OTP');
@@ -214,8 +243,7 @@ export default function OtpClient() {
                                     </div>
                                     <div className="d-flex flex-col mt-4 text-blue text-center">
                                         <span>
-                                            OTP has been sent via SMS to {mobile} 
-                                            {otp && <strong> Otp - ({otp})</strong>}
+                                            OTP has been sent via SMS to {mobile} - <strong>Otp : ( {otp}  )</strong>
                                         </span>
                                     </div>
                                     

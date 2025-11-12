@@ -86,7 +86,7 @@ export function LoginForm() {
       // Store data
       sessionStorage.setItem('mobile', mobile_number);
       localStorage.setItem('otp', result.otp);
-
+      console.log("result.otp",result.otp);
       // Redirect
       router.push('/otp');
     // } catch (err) {

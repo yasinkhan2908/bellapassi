@@ -63,6 +63,7 @@ export default function AccountSetting() {
   // ✅ Set client-side flag and initialize localStorage values
   useEffect(() => {
     setIsClient(true);
+    console.log("user mobile",localStorage.getItem("user_mobile"));
     setMobileNumber(localStorage.getItem("user_mobile"));
     setToken(localStorage.getItem('token'));
   }, []);
@@ -217,7 +218,7 @@ export default function AccountSetting() {
 
                     <div className="addresses-grid">                                        
                       <div className="settings-content">
-                        <div className="settings-section aos-init aos-animate" data-aos="fade-up">
+                        <div className="settings-section aos-init aos-animate mb-5" data-aos="fade-up">
                           <h3>Personal Information</h3>
                           <form className="php-email-form settings-form ajaxformfileupload" onSubmit={handleSubmit} method="post">
                             <div className="row g-3">

@@ -4,7 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { logoutAction } from '../../actions/auth-actions';
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 export const AccountSidebar = ({}: AccountSidebarProps) => {
+    const router = useRouter();
     const [firstName, setFirstName] = useState<string | null>(null);
     const [lastName, setLastName] = useState<string | null>(null);
 
@@ -18,6 +20,19 @@ export const AccountSidebar = ({}: AccountSidebarProps) => {
         { name: "My Address", path: "/user/my-address", icon: "bi bi-geo-alt" },
         { name: "Account Settings", path: "/user/account-setting", icon: "bi bi-gear" },
     ];
+    const handleLogout = () => {
+    // Remove specific items
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_first_name');
+        localStorage.removeItem('user_last_name');
+        localStorage.removeItem('user_mobile');
+
+        // Or remove all items
+        // localStorage.clear();
+
+        // Redirect to login page
+        router.push('/');
+    };
     return (
         <div className="profile-menu collapse d-lg-block" id="profileMenu">
             <div className="user-info aos-init aos-animate" data-aos="fade-right">
@@ -46,12 +61,12 @@ export const AccountSidebar = ({}: AccountSidebarProps) => {
                 </ul>
 
                 <div className="menu-footer">
-                    <form action={logoutAction}>
-                        <button type="submit" className="logout-link">
+                    
+                        <button type="button" onClick={handleLogout} className="logout-link">
                             <i className="bi bi-box-arrow-right"></i>
                             <span>Log Out</span>
                         </button>
-                    </form>
+                    
                 </div>
             </nav>
         </div>
