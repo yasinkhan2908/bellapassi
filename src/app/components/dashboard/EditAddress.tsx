@@ -25,13 +25,13 @@ interface FormData {
 }
 
 interface FormErrors {
-  [x: string]: string;
+  [x: string]: string | undefined;
   name?: string;
   phone?: string;
   address?: string;
   city?: string;
   state?: string;
-  postcode?: string;
+  postalcode?: string;
 }
 
 interface EditAddressProps {
