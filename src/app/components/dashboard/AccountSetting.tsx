@@ -28,13 +28,21 @@ export default function AccountSetting() {
   const [result, setResult] = useState<{ error?: string; data?: any } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [MobileNumber, setMobileNumber] = useState<string | null>(null); // ✅ Store mobile number in state
-  const [token, setToken] = useState<string | null>(null); // ✅ Store token in state
+  const [mobileNumber, setMobileNumber] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false); // ✅ Track client-side rendering
   
   const [formData, setFormData] = useState<FormData>({
     first_name: '',
     last_name: '',
     email: ''
+  });
+
+  const [user, setUser] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: ''
   });
 
   // Custom validation function to replace Parsley.js
@@ -52,15 +60,9 @@ export default function AccountSetting() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const [user, setUser] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: ''
-  });
-
-  // ✅ Initialize localStorage values on client side only
+  // ✅ Set client-side flag and initialize localStorage values
   useEffect(() => {
+    setIsClient(true);
     setMobileNumber(localStorage.getItem("user_mobile"));
     setToken(localStorage.getItem('token'));
   }, []);
@@ -68,14 +70,19 @@ export default function AccountSetting() {
   // ✅ Fetch current profile on page load (client-side only)
   useEffect(() => {
     const fetchProfile = async () => {
-      // Wait for token to be available
-      if (!token) return;
+      // Wait for token to be available and ensure we're on client
+      if (!token || !isClient) return;
       
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
           cache: 'no-store',
         });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile');
+        }
+        
         const responseData = await response.json();
         console.log('data', responseData.data);
         setUser(responseData.data);
@@ -86,10 +93,10 @@ export default function AccountSetting() {
     };
     
     fetchProfile();
-  }, [token]); // ✅ Re-run when token is available
+  }, [token, isClient]);
 
   // ✅ Handle input changes dynamically
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -124,6 +131,11 @@ export default function AccountSetting() {
         },
         body: JSON.stringify(formData),
       });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
       const result = await response.json();
       
       if (!result.success) {
@@ -131,8 +143,10 @@ export default function AccountSetting() {
       }
 
       // ✅ Update localStorage on client side only
-      localStorage.setItem("user_first_name", formData.first_name);
-      localStorage.setItem("user_last_name", formData.last_name);
+      if (isClient) {
+        localStorage.setItem("user_first_name", formData.first_name);
+        localStorage.setItem("user_last_name", formData.last_name);
+      }
 
       Swal.fire({
         title: 'Success',
@@ -151,13 +165,39 @@ export default function AccountSetting() {
       console.error('Update error:', error);
       Swal.fire({
         title: 'Error',
-        text: 'Failed to update profile',
+        text: error instanceof Error ? error.message : 'Failed to update profile',
         icon: 'error',
         confirmButtonText: 'OK'
       });
       setIsSubmitting(false);
     }
   };
+
+  // ✅ Show loading state during SSR/hydration
+  if (!isClient) {
+    return (
+      <main className="main">
+        <section id="account" className="account section">
+          <div className='container'>
+            <div className="row g-4">
+              <div className="col-lg-3">
+                <AccountSidebar />
+              </div>
+              <div className="col-lg-9">
+                <div className="content-area">
+                  <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+                    <div className="spinner-border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="main">
@@ -228,7 +268,7 @@ export default function AccountSetting() {
                                   name="mobile"  
                                   maxLength={10}  
                                   placeholder='Enter phone number' 
-                                  value={MobileNumber || ''} 
+                                  value={mobileNumber || ''} 
                                   readOnly 
                                 />
                               </div>

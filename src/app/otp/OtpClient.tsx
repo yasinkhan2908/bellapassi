@@ -5,6 +5,7 @@ import { useEffect, useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from "next/link";
 import { Header, Footer } from '../components/common';
+
 export default function OtpClient() {
     const [mobile, setMobile] = useState('');
     const [otp, setOtp] = useState('');
@@ -134,6 +135,8 @@ export default function OtpClient() {
                 localStorage.setItem("user_first_name", result.data.user.first_name);   
                 localStorage.setItem("user_last_name", result.data.user.last_name);  
                 localStorage.setItem("user_mobile", result.data.user.phone);
+
+                //
             }
 
             // Redirect to dashboard

@@ -144,7 +144,11 @@ export function AddAddressForm() {
 
     // try {
       //console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/user/add-shipping-address`);
+      if (typeof window !== "undefined") {
+      // safe to use window, document, localStorage, etc.
       const token = localStorage.getItem("token");
+    }
+      const token = window.localStorage.getItem("token");
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/add-shipping-address`, {
           method: 'POST',
           headers: {

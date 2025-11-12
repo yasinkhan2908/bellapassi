@@ -1,17 +1,23 @@
+"use client";
 import { AccountSidebarProps } from '../../types';
 import Link from "next/link";
 import Image from "next/image";
 import { logoutAction } from '../../actions/auth-actions';
-
+import { useEffect, useState } from "react";
 export const AccountSidebar = ({}: AccountSidebarProps) => {
+    const [firstName, setFirstName] = useState<string | null>(null);
+    const [lastName, setLastName] = useState<string | null>(null);
+
+    useEffect(() => {
+        setFirstName(localStorage.getItem("user_first_name"));
+        setLastName(localStorage.getItem("user_last_name"));
+    }, []);
     const menuItems = [
         { name: "My Orders", path: "/user/dashboard", icon: "bi bi-box-seam" },
         { name: "Wishlist", path: "/", icon: "bi bi-heart" },
         { name: "My Address", path: "/user/my-address", icon: "bi bi-geo-alt" },
         { name: "Account Settings", path: "/user/account-setting", icon: "bi bi-gear" },
     ];
-    const FirstName = localStorage.getItem("user_first_name");
-    const LastName = localStorage.getItem("user_last_name");
     return (
         <div className="profile-menu collapse d-lg-block" id="profileMenu">
             <div className="user-info aos-init aos-animate" data-aos="fade-right">
@@ -24,7 +30,7 @@ export const AccountSidebar = ({}: AccountSidebarProps) => {
                         loading="lazy"
                     />
                 </div>
-                <h4>{FirstName} {LastName}</h4>    
+                <h4>{firstName} {lastName}</h4>    
             </div>
 
             <nav className="menu-nav">
