@@ -202,7 +202,7 @@ export default function EditAddress({ id }: EditAddressProps) {
     } catch (error) {
       Swal.fire({
         title: 'Error',
-        text: error.message,
+        text: 'Fail to update',
         icon: 'error',
         confirmButtonText: 'Ok'
       });
