@@ -1484,6 +1484,9 @@ ease;
     padding: 7px 10px;
     margin-bottom: 10px;
 }
+.text-red-500{
+    color: red !important;
+}
 /* Medium devices (≥768px) */
 @media (max-width: 768px) {
     
