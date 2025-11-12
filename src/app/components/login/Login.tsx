@@ -64,8 +64,8 @@ export function LoginForm() {
       });
 
       // 2️⃣ Then login
-      console.log("login url",`${process.env.API_URL}/api/user/user-register`);
-      console.log("login url",`${process.env.NEXT_PUBLIC_API_URL}/api/user/user-register`);
+      // console.log("login url",`${process.env.API_URL}/api/user/user-register`);
+      // console.log("login url",`${process.env.NEXT_PUBLIC_API_URL}/api/user/user-register`);
       
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/user-register`, {
         method: 'POST',
