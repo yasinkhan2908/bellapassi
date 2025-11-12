@@ -194,7 +194,7 @@ export default function AccountSetting() {
                                                         </div>
                                                         <div className="col-md-6">
                                                             <label className="form-label">Phone</label>
-                                                            <input type="tel" className={`form-control }`} id="mobile" name="mobile"  maxLength={10}  placeholder='Enter phone number'  value={MobileNumber} readOnly />
+                                                            <input type="tel" className="form-control" id="mobile" name="mobile"  maxLength={10}  placeholder='Enter phone number' value={MobileNumber || ''} readOnly />
                                                         </div>
                                                     </div>
 
