@@ -78,8 +78,6 @@ export default function Addresses() {
                 }).then(async (result) => {
                     if (result.isConfirmed) {
                         setAddresses(responseData.data);
-                        // Refresh list below (without page reload)
-                        router.refresh();
                     }
                 });
             }
@@ -109,11 +107,9 @@ export default function Addresses() {
                     return;
                 }
                 toast.dismiss();
-                toast.success(data.message || 'Successfully remove address!');
+                toast.success(data.message || 'Successfully mark as default address!');
                 //
                 setAddresses(data.data);
-                // Refresh list below (without page reload)
-                //router.refresh();
             }
         });
     };
