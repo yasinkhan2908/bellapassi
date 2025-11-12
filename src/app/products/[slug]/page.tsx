@@ -20,13 +20,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const product = await res.json();
-  //console.log('product detail',product);
+  //console.log('product detail',product.data.productdetails);
   return {
-    title: product.data?.product_name || product.product_name || 'Product Details',
-    description: product.data?.product_description || product.product_description || 'Product details page',
+    title: product.data.productdetails.product_name || 'Product Details',
+    description: product.data.productdetails.product_description || product.data.productdetails.product_description || 'Product details page',
     openGraph: {
-      title: product.data?.product_name || product.product_name || 'Product Details',
-      description: product.data?.product_description || product.product_description || 'Product details page',
+      title: product.data.productdetails.product_name || 'Product Details',
+      description: product.data.productdetails.product_description || product.data.productdetails.product_description || 'Product details page',
       images: product.data?.images || product.images || [],
     },
   };
