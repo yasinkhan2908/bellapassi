@@ -131,12 +131,12 @@ export function AddAddressForm() {
     e.preventDefault();
     
     if (!validateForm()) {
-      Swal.fire({
-        title: 'Validation Error',
-        text: 'Please fill in all required fields correctly',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
+      // Swal.fire({
+      //   title: 'Validation Error',
+      //   text: 'Please fill in all required fields correctly',
+      //   icon: 'error',
+      //   confirmButtonText: 'OK'
+      // });
       return;
     }
 
