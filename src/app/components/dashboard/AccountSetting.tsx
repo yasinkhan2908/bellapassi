@@ -142,15 +142,14 @@ export default function AccountSetting() {
                 // Redirect to dashboard
                 localStorage.setItem("user_first_name",formData.first_name);
                 localStorage.setItem("user_last_name",formData.last_name);
-                
+                setIsSubmitting(false);
                 // Reset form
-                setFormData({
-                    first_name: '',
-                    last_name: '',
-                    email: ''
-                });
-                router.push('/user/dashboard');
-            
+                // setFormData({
+                //     first_name: '',
+                //     last_name: '',
+                //     email: ''
+                // });
+                // router.push('/user/dashboard');
             }
         });
   };
