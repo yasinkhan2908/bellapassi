@@ -36,12 +36,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const { categoryName } = await params; // 👈 Await the params
   //get category all attributes
   
-  console.log(`${process.env.API_URL}/api/user/category-detail/${categoryName}`);
+  //console.log(`${process.env.API_URL}/api/user/category-detail/${categoryName}`);
   const catDetail = await fetch(`${process.env.API_URL}/api/user/category-detail/${categoryName}`, {
     cache: 'no-store',
   })
   const catDetailJson = await catDetail.json()
-  console.log("category fields",catDetailJson);
+  //console.log("category fields",catDetailJson);
   const CateData = Array.isArray(catDetailJson) ? catDetailJson : catDetailJson.data.category_field;
   // since you already extracted the data in the line above
   const CateDatas = CateData.data || CateData;

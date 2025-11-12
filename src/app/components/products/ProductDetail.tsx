@@ -49,7 +49,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     const productdetail = product.data.productdetails;
     const images = productdetail.productimages;
 
-    console.log("product images",images);
+    //console.log("product images",images);
 
     const handleImageMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isZoomed || !mainImageRef.current) return;

@@ -52,7 +52,7 @@ export async function loginUser(prevState: { error: string | null }, formData: F
       sameSite: 'lax',
       maxAge: 300
     });
-    console.log("redirect otp");
+    //console.log("redirect otp");
     redirect('/otp');
 
   // } catch (error) {

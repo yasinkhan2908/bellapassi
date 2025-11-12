@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'; // ✅ Added useEffect import
 import { LoadScript, Autocomplete } from '@react-google-maps/api';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation'; // ✅ Added useRouter
-
+import { Header, Footer } from '../../components/common';
 
 import { AccountSidebar } from './AccountSidebar';
 
@@ -247,160 +247,162 @@ export default function EditAddress({ id }: EditAddressProps) {
 
   return (
     <main className="main">
-      <section id="account" className="account section">
-        <div className='container'>
-          <div className="row g-4">
-            <div className="col-lg-3">
-              <AccountSidebar />
-            </div>
-            <div className="col-lg-9">
-              <div className="content-area">
-                <div className="tab-content">
-                  <div className="tab-pane fade active show" id="addresses" role="tabpanel">
-                    <div className="section-header aos-init aos-animate" data-aos="fade-up">
-                      <h2>Update Address</h2>
+        <Header />
+            <section id="account" className="account section">
+                <div className='container'>
+                <div className="row g-4">
+                    <div className="col-lg-3">
+                    <AccountSidebar />
                     </div>
-                    <div className="addresses-grid">
-                      <div className="address-card aos-init aos-animate active mb-3" data-aos="fade-up" data-aos-delay="200">
-                        <form className="php-email-form settings-form ajaxformfileupload" onSubmit={handleSubmit} method="post">
-                          <input type="hidden" name="address_id" value={formData.address_id} />
-                          <div className="row g-3">
-                            <div className="col-md-12">
-                              <label className="form-label">Name *</label>
-                              <input 
-                                type="text" 
-                                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-                                name="name" 
-                                placeholder="Enter Name" 
-                                value={formData.name} 
-                                onChange={handleChange} 
-                              />
-                              {errors.name && <div className="invalid-feedback d-block">{errors.name}</div>}
+                    <div className="col-lg-9">
+                    <div className="content-area">
+                        <div className="tab-content">
+                        <div className="tab-pane fade active show" id="addresses" role="tabpanel">
+                            <div className="section-header aos-init aos-animate" data-aos="fade-up">
+                            <h2>Update Address</h2>
                             </div>
-                            <div className="col-md-6">
-                              <label className="form-label">Email</label>
-                              <input 
-                                type="email" 
-                                className="form-control" 
-                                name="email" 
-                                placeholder="Enter Email" 
-                                value={formData.email} 
-                                onChange={handleChange} 
-                              />
-                            </div>
-                            <div className="col-md-6">
-                              <label className="form-label">Phone Number *</label>
-                              <input 
-                                type="tel" 
-                                className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                                name="phone" 
-                                placeholder="Enter Phone Number" 
-                                value={formData.mobile} 
-                                onChange={handleChange} 
-                              />
-                              {errors.mobile && <div className="invalid-feedback d-block">{errors.mobile}</div>}
-                            </div>
-                            <div className="col-md-12">
-                              <label className="form-label">Address *</label>
-                              <LoadScript
-                                googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}
-                                libraries={libraries}
-                              >
-                                <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                                  <input 
-                                    type="text" 
-                                    className={`form-control pac-target-input ${errors.address_line_1 ? 'is-invalid' : ''}`}
-                                    name="address_line_1" 
-                                    placeholder="Enter Address" 
-                                    value={formData.address_line_1} 
-                                    onChange={handleChange} 
-                                  />
-                                </Autocomplete>
-                              </LoadScript>
-                              {errors.address_line_1 && <div className="invalid-feedback d-block">{errors.address_line_1}</div>}
-                            </div>
-                            
-                            <div className="col-md-12">
-                              <label className="form-label">Address Line 2</label>
-                              <input 
-                                type="text" 
-                                className="form-control" 
-                                name="address_line_2" 
-                                placeholder="Enter Address Line 2" 
-                                value={formData.address_line_2} 
-                                onChange={handleChange} 
-                              />
-                            </div>
-                            
-                            <div className="col-md-12">
-                              <label className="form-label">Landmark</label>
-                              <input 
-                                type="text" 
-                                className="form-control" 
-                                name="landmark" 
-                                placeholder="Enter Landmark" 
-                                value={formData.landmark} 
-                                onChange={handleChange}
-                              />
-                            </div>
-                            <div className="col-md-6">
-                              <label className="form-label">State *</label>
-                              <input 
-                                type="text" 
-                                className={`form-control ${errors.state ? 'is-invalid' : ''}`}
-                                name="state" 
-                                placeholder="Enter State" 
-                                value={formData.state} 
-                                onChange={handleChange} 
-                              />
-                              {errors.state && <div className="invalid-feedback d-block">{errors.state}</div>}
-                            </div>
-                            <div className="col-md-6">
-                              <label className="form-label">City *</label>
-                              <input 
-                                type="text" 
-                                className={`form-control ${errors.city ? 'is-invalid' : ''}`}
-                                name="city" 
-                                placeholder="Enter City" 
-                                value={formData.city} 
-                                onChange={handleChange} 
-                              />
-                              {errors.city && <div className="invalid-feedback d-block">{errors.city}</div>}
-                            </div>
-                            <div className="col-md-12">
-                              <label className="form-label">Pin Code *</label>
-                              <input 
-                                type="text" 
-                                className={`form-control ${errors.postcode ? 'is-invalid' : ''}`}
-                                name="postcode" 
-                                placeholder="Enter Pin Code" 
-                                value={formData.postcode} 
-                                onChange={handleChange} 
-                              />
-                              {errors.postcode && <div className="invalid-feedback d-block">{errors.postcode}</div>}
-                            </div>
-                          </div>
+                            <div className="addresses-grid">
+                            <div className="address-card aos-init aos-animate active mb-3" data-aos="fade-up" data-aos-delay="200">
+                                <form className="php-email-form settings-form ajaxformfileupload" onSubmit={handleSubmit} method="post">
+                                <input type="hidden" name="address_id" value={formData.address_id} />
+                                <div className="row g-3">
+                                    <div className="col-md-12">
+                                    <label className="form-label">Name *</label>
+                                    <input 
+                                        type="text" 
+                                        className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                                        name="name" 
+                                        placeholder="Enter Name" 
+                                        value={formData.name} 
+                                        onChange={handleChange} 
+                                    />
+                                    {errors.name && <div className="invalid-feedback d-block">{errors.name}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                    <label className="form-label">Email</label>
+                                    <input 
+                                        type="email" 
+                                        className="form-control" 
+                                        name="email" 
+                                        placeholder="Enter Email" 
+                                        value={formData.email} 
+                                        onChange={handleChange} 
+                                    />
+                                    </div>
+                                    <div className="col-md-6">
+                                    <label className="form-label">Phone Number *</label>
+                                    <input 
+                                        type="tel" 
+                                        className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                                        name="phone" 
+                                        placeholder="Enter Phone Number" 
+                                        value={formData.mobile} 
+                                        onChange={handleChange} 
+                                    />
+                                    {errors.mobile && <div className="invalid-feedback d-block">{errors.mobile}</div>}
+                                    </div>
+                                    <div className="col-md-12">
+                                    <label className="form-label">Address *</label>
+                                    <LoadScript
+                                        googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}
+                                        libraries={libraries}
+                                    >
+                                        <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                                        <input 
+                                            type="text" 
+                                            className={`form-control pac-target-input ${errors.address_line_1 ? 'is-invalid' : ''}`}
+                                            name="address_line_1" 
+                                            placeholder="Enter Address" 
+                                            value={formData.address_line_1} 
+                                            onChange={handleChange} 
+                                        />
+                                        </Autocomplete>
+                                    </LoadScript>
+                                    {errors.address_line_1 && <div className="invalid-feedback d-block">{errors.address_line_1}</div>}
+                                    </div>
+                                    
+                                    <div className="col-md-12">
+                                    <label className="form-label">Address Line 2</label>
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        name="address_line_2" 
+                                        placeholder="Enter Address Line 2" 
+                                        value={formData.address_line_2} 
+                                        onChange={handleChange} 
+                                    />
+                                    </div>
+                                    
+                                    <div className="col-md-12">
+                                    <label className="form-label">Landmark</label>
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        name="landmark" 
+                                        placeholder="Enter Landmark" 
+                                        value={formData.landmark} 
+                                        onChange={handleChange}
+                                    />
+                                    </div>
+                                    <div className="col-md-6">
+                                    <label className="form-label">State *</label>
+                                    <input 
+                                        type="text" 
+                                        className={`form-control ${errors.state ? 'is-invalid' : ''}`}
+                                        name="state" 
+                                        placeholder="Enter State" 
+                                        value={formData.state} 
+                                        onChange={handleChange} 
+                                    />
+                                    {errors.state && <div className="invalid-feedback d-block">{errors.state}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                    <label className="form-label">City *</label>
+                                    <input 
+                                        type="text" 
+                                        className={`form-control ${errors.city ? 'is-invalid' : ''}`}
+                                        name="city" 
+                                        placeholder="Enter City" 
+                                        value={formData.city} 
+                                        onChange={handleChange} 
+                                    />
+                                    {errors.city && <div className="invalid-feedback d-block">{errors.city}</div>}
+                                    </div>
+                                    <div className="col-md-12">
+                                    <label className="form-label">Pin Code *</label>
+                                    <input 
+                                        type="text" 
+                                        className={`form-control ${errors.postcode ? 'is-invalid' : ''}`}
+                                        name="postcode" 
+                                        placeholder="Enter Pin Code" 
+                                        value={formData.postcode} 
+                                        onChange={handleChange} 
+                                    />
+                                    {errors.postcode && <div className="invalid-feedback d-block">{errors.postcode}</div>}
+                                    </div>
+                                </div>
 
-                          <div className="form-buttons">
-                            <input type="hidden" name="country" value={formData.country} />
-                            <button 
-                              type="submit" 
-                              className="btn btn-primary mt-3"
-                              disabled={isSubmitting}
-                            >
-                              {isSubmitting ? 'Saving...' : 'Save Address'}
-                            </button>
-                          </div>
-                        </form>
-                      </div>
+                                <div className="form-buttons">
+                                    <input type="hidden" name="country" value={formData.country} />
+                                    <button 
+                                    type="submit" 
+                                    className="btn btn-primary mt-3"
+                                    disabled={isSubmitting}
+                                    >
+                                    {isSubmitting ? 'Saving...' : 'Save Address'}
+                                    </button>
+                                </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>    
                     </div>
-                  </div>
                 </div>
-              </div>    
-            </div>
-          </div>
-        </div>
-      </section>
+                </div>
+            </section>
+        <Footer />
     </main>
   );
 }

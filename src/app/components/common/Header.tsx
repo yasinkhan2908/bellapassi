@@ -34,12 +34,16 @@ export const Header = ({ maincategory }: HeaderProps) => {
 
         const fetchProfile = async () => {
           try {
-              const { data } = await api.get('/api/user/main-category');
-              //console.log(data.data.main_category);
-              setMainCategory(data.data.main_category);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/main-category`, {
+                            cache: 'no-store', // ensures fresh data each time
+                        });
+            const responseData = await res.json();
+            const data = responseData.data;
+            //console.log("main category",data);
+            setMainCategory(data.main_category);
               // ✅ Automatically click the first category after loading
-            if (data.data.main_category.length > 0) {
-                handleClick(data.data.main_category[0].id);
+            if (data.main_category.length > 0) {
+                handleClick(data.main_category[0].id);
             }
           } catch (err) {
               console.error('Error fetching profile:', err);
@@ -50,10 +54,17 @@ export const Header = ({ maincategory }: HeaderProps) => {
 
     const handleClick = async (parentId: number) => {
         //console.log(parentId); 
-        setActiveCategoryId(parentId); // ✅ Set active
-        const { data } = await api.get(`/api/user/get-child-category/${parentId}`);
+
+         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/get-child-category/${parentId}`, {
+                            cache: 'no-store', // ensures fresh data each time
+                        });
+        const responseData = await res.json();
+        const data = responseData.data;
+        console.log('child category',data);
+        //console.log(data.data.main_category);
+        //setMainCategory(data.main_category);
         //console.log(data.data.categories);
-        setSelectedCategory(data.data.categories);
+        setSelectedCategory(data.categories);
     };
 
     

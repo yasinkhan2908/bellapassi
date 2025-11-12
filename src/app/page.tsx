@@ -22,7 +22,6 @@ export async function generateMetadata() {
 
 
 export default async function Home() {
-  console.log("home data",`${process.env.API_URL}/api/user/home-data`);
   // 🟢 Fetch data from Laravel API (server-side)
   const res = await fetch(`${process.env.API_URL}/api/user/home-data`, {
     cache: 'no-store', // ensures fresh data each time
@@ -30,7 +29,7 @@ export default async function Home() {
 
   const responseData = await res.json();
   const data = responseData.data;
-  console.log(data.new_arrival);
+  //console.log(data.new_arrival);
 
   const upcomingProducts = [
     {

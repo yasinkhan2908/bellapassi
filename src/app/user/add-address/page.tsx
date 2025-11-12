@@ -3,10 +3,11 @@
 
 import { AccountSidebar } from '../../components/dashboard/AccountSidebar';
 import { AddAddressForm } from '../../components/dashboard/AddAddresses';
-
+import { Header, Footer } from '../../components/common';
 export default function AddAddressPage() {
   return (
     <main className="main">
+      <Header />
       <section id="account" className="account section">
         <div className='container'>
           <div className="row g-4">
@@ -32,6 +33,7 @@ export default function AddAddressPage() {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

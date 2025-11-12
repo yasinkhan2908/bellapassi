@@ -101,8 +101,8 @@ export default function OtpClient() {
             
             // Get CSRF cookie first
             await api.get('/sanctum/csrf-cookie');
-            console.log(otps);
-            console.log(otps.join(''));
+            //console.log(otps);
+            //console.log(otps.join(''));
             // OTP verification
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/otp-verification`, {
                 method: 'POST',
@@ -116,7 +116,7 @@ export default function OtpClient() {
             });
 
             const result = await response.json();
-            console.log("result",result);
+            //console.log("result",result);
             if (!result.success) {
                 // toast.dismiss();
                 // toast.error(result.message || 'OTP verification failed!');
