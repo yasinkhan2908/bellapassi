@@ -233,8 +233,8 @@ export default function OtpClient() {
                                                         onChange={(e) => handleChange(e, i)}
                                                         onKeyDown={(e) => handleKeyDown(e, i)}
                                                         onPaste={handlePaste}
-                                                        className={`m-2 border h-10 w-12 text-center form-control rounded focus:border-gray-600 bg-red-50 ${
-                                                            errors.otp ? 'border-red-500' : ''
+                                                        className={`m-2 mobile-border h-10 w-12 text-center form-control rounded focus:border-gray-600 bg-red-50 ${
+                                                            errors.otp ? 'mobile-is-invalid' : ''
                                                         }`}
                                                         disabled={isSubmitting}
                                                     />

@@ -10,7 +10,7 @@ export default async function AddressesPage() {
 
   return (
     <div className="index-page">
-      <Header />
+      <Header /> 
       <main className="main">
         {/* You can pass fetched data into Addresses if needed */}
         <Addresses /* data={addresses} */ />

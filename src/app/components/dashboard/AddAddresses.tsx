@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { LoadScript, Autocomplete } from '@react-google-maps/api';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation'; // ✅ Added useRouter
 
 const libraries: ('places')[] = ['places'];
 
@@ -30,6 +31,7 @@ interface FormErrors {
 }
 
 export function AddAddressForm() {
+  const router = useRouter(); // ✅ Initialize router
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -140,28 +142,26 @@ export function AddAddressForm() {
 
     setIsSubmitting(true);
 
-    try {
-      const response = await fetch('/api/user/add-shipping-address', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+    // try {
+      //console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/user/add-shipping-address`);
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/add-shipping-address`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`, // include login token
+          },
+          body: JSON.stringify(formData),
       });
 
       const result = await response.json();
-
-      if (!response.ok) {
+      
+      //console.log("form process",result);
+      if (!result.success) {
         throw new Error(result.message || 'Something went wrong!');
       }
 
-      Swal.fire({
-        title: 'Success',
-        text: result.message || 'Address successfully added!',
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      });
-
+      
       // Reset form
       setFormData({
         name: '',
@@ -175,18 +175,34 @@ export function AddAddressForm() {
         postalcode: '',
         country: '',
       });
-      
-    } catch (error) {
+
       Swal.fire({
-        title: 'Error',
-        text: error instanceof Error ? error.message : 'Failed. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK'
+          title: 'Success',
+          text: result.message || 'Address successfully updated!',
+          icon: 'success',
+          showCancelButton: false,
+          confirmButtonColor: '#2ee44cff',
+          cancelButtonColor: 'rgba(222, 41, 50, 1)',
+          confirmButtonText: 'Ok'
+      }).then(async (result) => {
+          if (result.isConfirmed) {
+              router.push('/user/my-address');
+          }
       });
-    } finally {
-      setIsSubmitting(false);
-    }
+      
+    // } catch (error) {
+    //   Swal.fire({
+    //     title: 'Error',
+    //     text: error instanceof Error ? error.message : 'Failed. Please try again.',
+    //     icon: 'error',
+    //     confirmButtonText: 'OK'
+    //   });
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
+
+
 
   return (
     <form onSubmit={handleSubmit} className="php-email-form settings-form">

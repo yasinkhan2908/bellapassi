@@ -128,15 +128,7 @@ export function LoginForm() {
 
     <form onSubmit={handleSubmit} className="p-0 space-y-2">
       
-        {/* Validation Error */}
-        {validationError && (
-          <div className="text-red-500 text-sm mt-2">{validationError}</div>
-        )}
         
-        {/* Server Error */}
-        {error && !validationError && (
-          <div className="text-red-500 text-sm mt-2">{error}</div>
-        )}
       <div className="my-4 relative flex w-full flex-wrap items-stretch">
         <span className="z-10 h-full font-normal absolute text-left text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-20 pl-3 py-3">
           +91 |
@@ -146,15 +138,22 @@ export function LoginForm() {
           name="mobile_number"
           placeholder="Mobile Number" 
           maxLength={10} 
-          className="placeholder-gray-400 text-gray-600 relative bg-white bg-white rounded text-sm border border-gray-300 outline-none focus:border-gray-600 w-full pl-14 focus:border-sss-primary-500 w-100 login-number" 
-          
+          className={`placeholder-gray-400 text-gray-600 relative bg-white bg-white rounded text-sm mobile-border border-gray-300 outline-none focus:border-gray-600 w-full pl-14 focus:border-sss-primary-500 w-100 login-number ${validationError ? 'mobile-is-invalid' : ''} ${error && !validationError ? 'mobile-is-invalid' : ''}  ` }
           onChange={handleInputChange}
           onBlur={handleBlur}
           pattern="[6-9]{1}[0-9]{9}"
           title="Please enter a valid 10-digit Indian mobile number"
         />
         
+        {/* Validation Error */}
+        {validationError && (
+          <div className="text-red-500 text-sm mt-2">{validationError}</div>
+        )}
         
+        {/* Server Error */}
+        {error && !validationError && (
+          <div className="text-red-500 text-sm mt-2">{error}</div>
+        )}
         <div className="w-full flex-wrap text-gray-400 text-sm mt-2 mb-4"> 
           By continuing, I agree to the
           <Link href="/terms" className="text-sss-primary-500 font-semibold mx-1">Terms of Use</Link>

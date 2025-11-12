@@ -29,11 +29,14 @@ export default function Addresses() {
         //console.log("local token",localStorage.getItem('token'))
         const fetchProfile = async () => {
             try {
-                const { data } = await api.get('/api/user/shipping-address', {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/shipping-address`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    cache: 'no-store', // ensures fresh data each time
                 });
                 //console.log('data', data.data);
-                setAddresses(data.data);
+                const responseData = await data.json();
+                const result = responseData.data;
+                setAddresses(result);
             } catch (err) {
                 console.error('Error fetching profile:', err);
             }
@@ -54,20 +57,31 @@ export default function Addresses() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const token = localStorage.getItem('token');
-                const { data } = await api.get(`/api/user/remove-shipping-address/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` },
+                const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/remove-shipping-address/${id}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    cache: 'no-store', // ensures fresh data each time
                 });
-                if (data.success === false) {
+                const responseData = await data.json();
+                if (responseData.success === false) {
                     toast.dismiss();
-                    toast.error(data.message || 'Something went wrong!');
+                    toast.error(responseData.message || 'Something went wrong!');
                     return;
                 }
-                toast.dismiss();
-                toast.success(data.message || 'Successfully remove address!');
-                //
-                setAddresses(data.data);
-                // Refresh list below (without page reload)
-                router.refresh();
+                Swal.fire({
+                    title: 'Success',
+                    text: "Address remove successfully ",
+                    icon: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#2ee44cff',
+                    cancelButtonColor: 'rgba(222, 41, 50, 1)',
+                    confirmButtonText: 'Ok'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        setAddresses(responseData.data);
+                        // Refresh list below (without page reload)
+                        router.refresh();
+                    }
+                });
             }
         });
     };
