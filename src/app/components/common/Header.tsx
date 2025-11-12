@@ -2,7 +2,7 @@
 import Sidebar from './Sidebar';
 import { HeaderProps } from '../../types';
 
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import Image from "next/image";
 import api from '../../lib/axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -75,7 +75,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
         <div className="main-header">
             <div className="container-fluid container-xl">
                 <div className="d-flex py-1 align-items-center justify-content-between">
-                    <Link href="#" className="logo d-flex align-items-center left-list-icon"  data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <Link to="#" className="logo d-flex align-items-center left-list-icon"  data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                         <i className="bi bi-list"></i>
                     </Link>
                     <div className="offcanvas offcanvas-start leftsidebar " id="sidebar" aria-labelledby="sidebarLabel">
@@ -118,7 +118,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 {selectedCategory.map((category, index) => (
                                     <div key={category.id} className="d-flex items-center cat-lst p-1">
                                         <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                            <Link href={`/${category.seo}`} className="">
+                                            <Link to={`/${category.seo}`} className="">
                                                 <div className="d-flex">
                                                     <div className="w-10 relative">
                                                         <div>
@@ -136,7 +136,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                             
                                 {/* <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/shoes" className="">
+                                        <Link to="/shoes" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -153,7 +153,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/clothing" className="">
+                                        <Link to="/clothing" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -170,7 +170,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/boots" className="">
+                                        <Link to="/boots" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -187,7 +187,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/bags" className="">
+                                        <Link to="/bags" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -204,7 +204,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/boutique" className="">
+                                        <Link to="/boutique" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -221,7 +221,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/hot-and-trending" className="">
+                                        <Link to="/hot-and-trending" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -238,7 +238,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/influencer-program" className="">
+                                        <Link to="/influencer-program" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -255,7 +255,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/grab-and-go" className="">
+                                        <Link to="/grab-and-go" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -272,7 +272,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/accessories" className="">
+                                        <Link to="/accessories" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -289,7 +289,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/shop-the-reel" className="">
+                                        <Link to="/shop-the-reel" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -306,7 +306,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/mens" className="">
+                                        <Link to="/mens" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -323,7 +323,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/discover" className="">
+                                        <Link to="/discover" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -340,7 +340,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 
                                 <div className="d-flex items-center cat-lst p-1">
                                     <span className="p-2 pl-4 font-semibold text-sm w-100">
-                                        <Link href="/upcoming-drops" className="">
+                                        <Link to="/upcoming-drops" className="">
                                             <div className="d-flex">
                                                 <div className="w-10 relative">
                                                     <div>
@@ -361,17 +361,17 @@ export const Header = ({ maincategory }: HeaderProps) => {
                         <div className="h-6 bg-gray-100"></div>
                         <div className="d-flex p-4 justify-around bg-white">
                             <div className="w-8">
-                                <Link href="#" target="_blank" aria-label="Follow on Facebook">
+                                <Link to="#" target="_blank" aria-label="Follow on Facebook">
                                     <Image width={32} height={32} src="/img/fb.png" className="img-fluid" alt="Follow Bella Passi on Facebook" loading="lazy"/>
                                 </Link>
                             </div>
                             <div className="w-8">
-                                <Link href="#" target="_blank" aria-label="Follow on Instagram">
+                                <Link to="#" target="_blank" aria-label="Follow on Instagram">
                                     <Image width={32} height={32} src="/img/instagram.jpeg" className="img-fluid" alt="Follow Bella Passi on Instagram" loading="lazy"/>
                                 </Link>
                             </div>
                             <div className="w-8">
-                                <Link href="#" target="_blank" aria-label="Join Bella Passi to get offers">
+                                <Link to="#" target="_blank" aria-label="Join Bella Passi to get offers">
                                     <Image width={32} height={32} src="/img/telegram-512.webp" alt="" className="img-fluid"  aria-label="Join to get offers" loading="lazy"/>
                                 </Link>
                             </div>
@@ -380,10 +380,10 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 <div className="h-6 bg-gray-100 leftside-sigh">
                                     <div className="d-flex justify-around text-sss-primary-500">
                                         <div className="underline-offset-4">
-                                            <Link href="/login" className=""> Sign In</Link>
+                                            <Link to="/login" className=""> Sign In</Link>
                                         </div>
                                         <div className="underline-offset-4">
-                                            <Link href="/login" className=""> Login</Link>
+                                            <Link to="/login" className=""> Login</Link>
                                         </div>
                                     </div>
                                 </div> 
@@ -391,7 +391,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                             <div className="h-6 bg-gray-100 leftside-sigh">
                                 <div className="d-flex justify-around text-sss-primary-500">
                                     <div className="underline-offset-4">
-                                        <Link href="/user/dashboard" className=""> My Account</Link>
+                                        <Link to="/user/dashboard" className=""> My Account</Link>
                                     </div>
                                 </div>
                             </div> 
@@ -402,21 +402,21 @@ export const Header = ({ maincategory }: HeaderProps) => {
                             <div className="d-flex flex-row py-2.5">
                                 <div>
                                     {!token ? (
-                                            <Link href="/login" className="inline-block no-underline hover:text-black">
+                                            <Link to="/login" className="inline-block no-underline hover:text-black">
                                                 <i className="bi bi-house-door"></i>
                                             </Link> 
                                         ) : (                                    
-                                        <Link href="/user/dashboard" className="inline-block no-underline hover:text-black">
+                                        <Link to="/user/dashboard" className="inline-block no-underline hover:text-black">
                                             <i className="bi bi-house-door"></i>
                                         </Link>
                                     )}
                                 </div>
                                 {!token ? (
-                                        <Link href="/login" className="">
+                                        <Link to="/login" className="">
                                             <p className="font-semibold px-2 text-sm">My Account</p>
                                         </Link>
                                     ) : (    
-                                    <Link href="/user/account-setting" className="">
+                                    <Link to="/user/account-setting" className="">
                                         <p className="font-semibold px-2 text-sm">My Account</p>
                                     </Link>
                                 )}
@@ -425,61 +425,61 @@ export const Header = ({ maincategory }: HeaderProps) => {
                             <div className="d-flex flex-row py-2.5">
                                 <div>
                                     {!token ? (
-                                            <Link href="/login" className="inline-block no-underline hover:text-black">
+                                            <Link to="/login" className="inline-block no-underline hover:text-black">
                                                 <i className="bi bi-cart"></i>
                                             </Link>
                                         ) : (    
-                                        <Link href="/user/dashboard" className="inline-block no-underline hover:text-black">
+                                        <Link to="/user/dashboard" className="inline-block no-underline hover:text-black">
                                             <i className="bi bi-cart"></i>
                                         </Link>
                                     )}
                                     
                                 </div>
-                                <Link href="#" className="">
+                                <Link to="#" className="">
                                     <p className="font-semibold px-2 text-sm">My Orders</p>
                                 </Link>
                             </div>
                             
                             <div className="d-flex flex-row py-2.5">
                                 <div>
-                                    <Link href="#" className="inline-block no-underline hover:text-black">
+                                    <Link to="#" className="inline-block no-underline hover:text-black">
                                     <i className="bi bi-envelope"></i>
                                     </Link>
                                 </div>
-                                <Link href="#" className="">
+                                <Link to="#" className="">
                                     <p className="font-semibold px-2 text-sm">My Support</p>
                                 </Link>
                             </div>
                             
                             <div className="d-flex flex-row py-2.5">
                                 <div>
-                                    <Link href="#" className="inline-block no-underline hover:text-black">
+                                    <Link to="#" className="inline-block no-underline hover:text-black">
                                     <i className="bi bi-award"></i>
                                     </Link>
                                 </div>
-                                <Link href="#" className="">
+                                <Link to="#" className="">
                                     <p className="font-semibold px-2 text-sm">My Coupon</p>
                                 </Link>
                             </div>
                             
                             <div className="d-flex flex-row py-2.5">
                                 <div>
-                                    <Link href="#" className="inline-block no-underline hover:text-black">
+                                    <Link to="#" className="inline-block no-underline hover:text-black">
                                     <i className="bi bi-fire"></i>
                                     </Link>
                                 </div>
-                                <Link href="#" className="">
+                                <Link to="#" className="">
                                     <p className="font-semibold px-2 text-sm">My Refunds</p>
                                 </Link>
                             </div>
                             
                             <div className="d-flex flex-row py-2.5">
                                 <div>
-                                    <Link href="#" className="inline-block no-underline hover:text-black">
+                                    <Link to="#" className="inline-block no-underline hover:text-black">
                                     <i className="bi bi-credit-card"></i>
                                     </Link>
                                 </div>
-                                <Link href="#" className="">
+                                <Link to="#" className="">
                                     <p className="font-semibold px-2 text-sm">Contact Details</p>
                                 </Link>
                             </div>
@@ -496,22 +496,22 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                     <div className="accordion-body">
                                         <div className="d-flex flex-col">
                                             <div className="p-2 text-sm">
-                                                <Link href="#" className="">
+                                                <Link to="#" className="">
                                                     Returns &amp; Exchange
                                                 </Link>
                                             </div>
                                             <div className="p-2 text-sm">
-                                                <Link href="#" className="">
+                                                <Link to="#" className="">
                                                     Shipping Policy
                                                 </Link>
                                             </div>
                                             <div className="p-2 text-sm">
-                                                <Link href="#" className="">
+                                                <Link to="#" className="">
                                                     FAQ
                                                 </Link>
                                             </div>
                                             <div className="p-2 text-sm">
-                                                <Link href="#" className="">
+                                                <Link to="#" className="">
                                                     Terms &amp; Conditions
                                                 </Link>
                                             </div>
@@ -530,17 +530,17 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                     <div className="accordion-body">
                                         <div className="d-flex flex-col">
                                             <div className="p-2 text-sm">
-                                                <Link href="#" className="">
+                                                <Link to="#" className="">
                                                     About US
                                                 </Link>
                                             </div>
                                             <div className="p-2 text-sm">
-                                                <Link href="#" className="">
+                                                <Link to="#" className="">
                                                     Our Stores
                                                 </Link>
                                             </div>
                                             <div className="p-2 text-sm">
-                                                <Link href="#" className="">
+                                                <Link to="#" className="">
                                                     Privacy Policy
                                                 </Link>
                                             </div>
@@ -550,7 +550,7 @@ export const Header = ({ maincategory }: HeaderProps) => {
                             </div>
                         </div>
                     </div>
-                        <Link href="/" className="logo d-flex align-items-center">
+                        <Link to="/" className="logo d-flex align-items-center">
                             <Image src="/img/logo7.webp" width={195} height={25} alt="logo" loading="lazy" unoptimized/>
                         </Link>
 
@@ -567,26 +567,26 @@ export const Header = ({ maincategory }: HeaderProps) => {
                                 <i className="bi bi-search"></i>
                             </button>
 
-                            {/* <Link href="" className="header-action-btn">
+                            {/* <Link to="" className="header-action-btn">
                                 <i className="bi bi-house-door"></i>
                             </Link> */}
                             {!token ? (
-                                    <Link href="/login" className="header-action-btn">
+                                    <Link to="/login" className="header-action-btn">
                                         <i className="bi bi-person"></i>
                                     </Link>
                                     
                                 ) : (                                    
-                                <Link href="/user/dashboard/" className="header-action-btn">
+                                <Link to="/user/dashboard/" className="header-action-btn">
                                     <i className="bi bi-person"></i>
                                 </Link>
                             )}
 
-                            <Link href="#" className="header-action-btn d-none d-md-block">
+                            <Link to="#" className="header-action-btn d-none d-md-block">
                                 <i className="bi bi-heart"></i>
                                 <span className="badge">0</span>
                             </Link>
 
-                            <Link href="/cart" className="header-action-btn">
+                            <Link to="/cart" className="header-action-btn">
                                 <i className="bi bi-cart3"></i>
                                 <span className="badge">3</span>
                             </Link>
