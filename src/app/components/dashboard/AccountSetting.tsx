@@ -144,10 +144,10 @@ export default function AccountSetting() {
       }
 
       // ✅ Update localStorage on client side only
-      if (isClient) {
+    //   if (isClient) {
         localStorage.setItem("user_first_name", formData.first_name);
         localStorage.setItem("user_last_name", formData.last_name);
-      }
+    //   }
 
       Swal.fire({
         title: 'Success',
