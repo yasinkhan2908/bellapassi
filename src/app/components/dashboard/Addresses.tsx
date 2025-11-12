@@ -98,18 +98,20 @@ export default function Addresses() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const token = localStorage.getItem('token');
-                const { data } = await api.get(`/api/user/mark-as-default-address/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` },
+                const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/mark-as-default-address/${id}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    cache: 'no-store', // ensures fresh data each time
                 });
-                if (data.success === false) {
+                const responseData = await data.json();
+                if (responseData.success === false) {
                     toast.dismiss();
-                    toast.error(data.message || 'Something went wrong!');
+                    toast.error(responseData.message || 'Something went wrong!');
                     return;
                 }
                 toast.dismiss();
-                toast.success(data.message || 'Successfully mark as default address!');
+                toast.success(responseData.message || 'Successfully mark as default address!');
                 //
-                setAddresses(data.data);
+                setAddresses(responseData.data);
             }
         });
     };
