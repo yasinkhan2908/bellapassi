@@ -1,6 +1,5 @@
 'use client';
 import Image from "next/image";
-import api from '../../lib/axios';
 import toast from 'react-hot-toast';
 import { useEffect, useState, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -97,12 +96,13 @@ export default function OtpClient() {
         setIsSubmitting(true);
         
         try {
-            //toast.loading('Verifying OTP...');
-            
+            toast.loading('Verifying OTP...');
+
             // Get CSRF cookie first
-            await api.get('/sanctum/csrf-cookie');
-            console.log(otps);
-            console.log(otps.join(''));
+            await fetch(`${process.env.API_URL}/sanctum/csrf-cookie`, {
+                cache: 'no-store', // ensures fresh data each time
+            });
+
             // OTP verification
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/otp-verification`, {
                 method: 'POST',
@@ -116,10 +116,10 @@ export default function OtpClient() {
             });
 
             const result = await response.json();
-            console.log("result",result);
+
             if (!result.success) {
-                // toast.dismiss();
-                // toast.error(result.message || 'OTP verification failed!');
+                toast.dismiss();
+                toast.error(result.message || 'OTP verification failed!');
                 setErrors({ general: result.message || 'OTP verification failed' });
                 return;
             }
@@ -147,6 +147,43 @@ export default function OtpClient() {
         }
     };
 
+    const handleResendOtp = async () => {
+        if (!mobile) {
+            toast.error('Mobile number not found');
+            return;
+        }
+
+        try {
+            toast.loading('Resending OTP...');
+            
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/resend-otp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mobile }),
+            });
+
+            const result = await response.json();
+
+            toast.dismiss();
+            
+            if (result.success) {
+                toast.success('OTP resent successfully!');
+                if (result.data?.otp) {
+                    setOtp(result.data.otp);
+                    localStorage.setItem('otp', result.data.otp);
+                }
+                setOtps(new Array(length).fill("")); // Clear OTP inputs
+                setErrors({});
+            } else {
+                toast.error(result.message || 'Failed to resend OTP');
+            }
+        } catch (error) {
+            toast.dismiss();
+            toast.error('Failed to resend OTP');
+        }
+    };
 
     return (
         <div className="d-flex h-screen mt-20 justify-center">
@@ -193,7 +230,7 @@ export default function OtpClient() {
                                                 onChange={(e) => handleChange(e, i)}
                                                 onKeyDown={(e) => handleKeyDown(e, i)}
                                                 onPaste={handlePaste}
-                                                className={`m-2 border h-10 w-custom text-center form-control rounded focus:border-gray-600 bg-red-50 ${
+                                                className={`m-2 border h-10 w-12 text-center form-control rounded focus:border-gray-600 bg-red-50 ${
                                                     errors.otp ? 'border-red-500' : ''
                                                 }`}
                                                 disabled={isSubmitting}
@@ -212,7 +249,7 @@ export default function OtpClient() {
                                             <button 
                                                 type="submit"
                                                 disabled={isSubmitting}
-                                                className={`transition duration-500 ease-in-out bg-sss-primary-500 text-white font-bold py-2 px-4 rounded w-full lg:w-60 inline-flex justify-center w-100 verify-btn ${
+                                                className={`transition duration-500 ease-in-out bg-sss-primary-500 text-white font-bold py-2 px-4 rounded w-full inline-flex justify-center verify-btn ${
                                                     isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                                                 }`}
                                             >
@@ -236,8 +273,9 @@ export default function OtpClient() {
                                             <div className="text-gray-500">OR</div>
                                             <button
                                                 type="button"
+                                                onClick={handleResendOtp}
                                                 disabled={isSubmitting}
-                                                className="font-bold cursor-pointer text-xl text-blue bg-transparent border-none hover:underline"
+                                                className="font-bold cursor-pointer text-xl text-blue bg-transparent border-none hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 Resend OTP via SMS
                                             </button>
